@@ -1,0 +1,196 @@
+.booking-modal {
+  .dialog-content {
+    padding: 0 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .studio-info {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+
+    .studio-details {
+      h3 {
+        margin: 0 0 8px 0;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .studio-type {
+        color: #666;
+        margin: 0 0 4px 0;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .studio-location {
+        color: #666;
+        margin: 0 0 8px 0;
+        font-size: 14px;
+      }
+
+      .studio-rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        mat-icon {
+          color: #ddd;
+          font-size: 16px;
+          height: 16px;
+          width: 16px;
+          margin-right: 2px;
+
+          &.filled {
+            color: #ffc107;
+          }
+        }
+
+        .rating-text {
+          margin-left: 8px;
+          font-size: 14px;
+          color: #666;
+        }
+      }
+
+      .price {
+        color: #4caf50;
+        font-weight: 600;
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+  }
+
+  .booking-form {
+    .full-width {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .time-slot-section {
+      .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        color: #666;
+
+        p {
+          margin-top: 16px;
+          font-size: 14px;
+        }
+      }
+
+      .no-slots {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        color: #999;
+        text-align: center;
+
+        mat-icon {
+          font-size: 48px;
+          height: 48px;
+          width: 48px;
+          margin-bottom: 16px;
+        }
+
+        p {
+          margin: 0;
+          font-size: 14px;
+        }
+      }
+
+      .slot-price {
+        color: #666;
+        font-size: 12px;
+        margin-left: 8px;
+      }
+    }
+
+    .user-info {
+      h4 {
+        margin: 24px 0 16px 0;
+        color: #333;
+        font-weight: 500;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 8px;
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+    margin: 0;
+
+    button {
+      margin-left: 8px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      mat-spinner {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dialog-content {
+      padding: 0 16px;
+    }
+
+    mat-dialog-actions {
+      padding: 16px;
+      flex-direction: column;
+
+      button {
+        width: 100%;
+        margin: 8px 0 0 0;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    .mat-mdc-form-field-flex {
+      .mat-mdc-form-field-infix {
+        min-height: 56px;
+      }
+    }
+  }
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background: white !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  max-height: 300px;
+  
+  .mat-mdc-option {
+    background: white;
+    color: #333;
+    padding: 12px 16px;
+    
+    &:hover,
+    &.mdc-list-item--selected {
+      background: #f5f5f5;
+    }
+    
+    &.mat-mdc-option-active {
+      background: #e3f2fd;
+    }
+  }
+} 

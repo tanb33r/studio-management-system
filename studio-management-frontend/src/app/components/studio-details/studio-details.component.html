@@ -1,0 +1,173 @@
+<div class="studio-details-container">
+  
+  <div class="loading-container" *ngIf="loading()">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading studio details...</p>
+  </div>
+
+  
+  <div class="error-container" *ngIf="error()">
+    <mat-icon color="warn">error</mat-icon>
+    <h2>{{ error() }}</h2>
+    <button mat-button color="primary" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Studios
+    </button>
+  </div>
+
+  
+  <div class="studio-content" *ngIf="studio() && !loading() && !error()">
+    
+    <div class="header-actions">
+      <div class="nav-buttons">
+        <button mat-icon-button (click)="goBack()" class="back-button">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>Back to Studios</span>
+      </div>
+    </div>
+
+    
+    <div class="studio-header">
+      <div class="studio-image">
+        <img [src]="getMainImage()" [alt]="studio()!.name" />
+        <div class="image-overlay">
+          <span class="studio-type">{{ studio()!.studioType }}</span>
+        </div>
+      </div>
+
+      <div class="studio-info">
+        <h1>{{ studio()!.name }}</h1>
+        
+        <div class="rating">
+          <div class="stars">
+            <ng-container *ngFor="let star of getStarArray(studio()!.rating)">
+              <mat-icon [class.filled]="star === 1">star</mat-icon>
+            </ng-container>
+          </div>
+          <span class="rating-text">{{ studio()!.rating.toFixed(1) }} ({{ studio()!.reviewCount }} reviews)</span>
+        </div>
+
+        <div class="location">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ studio()!.address }}, {{ studio()!.area }}, {{ studio()!.city }}, {{ studio()!.state }} {{ studio()!.zipCode }}</span>
+        </div>
+
+        <div class="price">
+          <span class="amount">{{ studio()!.currency }} {{ studio()!.pricePerHour }}</span>
+          <span class="period">/hour</span>
+        </div>
+
+        <div class="contact">
+          <div class="contact-item">
+            <mat-icon>phone</mat-icon>
+            <span>{{ studio()!.contactPhone }}</span>
+          </div>
+          <div class="contact-item">
+            <mat-icon>email</mat-icon>
+            <span>{{ studio()!.contactEmail }}</span>
+          </div>
+        </div>
+
+        <button mat-raised-button color="primary" class="book-button" (click)="openBookingModal()">
+          <mat-icon>event</mat-icon>
+          Book This Studio
+        </button>
+      </div>
+    </div>
+
+    
+    <div class="details-grid">
+      <
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>description</mat-icon>
+          <mat-card-title>Description</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ studio()!.description }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>info</mat-icon>
+          <mat-card-title>Studio Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-item">
+            <strong>Capacity:</strong> {{ studio()!.capacity }} people
+          </div>
+          <div class="info-item">
+            <strong>Opening Hours:</strong> {{ formatOpeningHours(studio()!.openingHours) }}
+          </div>
+          <div class="info-item">
+            <strong>Studio Type:</strong> {{ studio()!.studioType }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      
+      <mat-card class="detail-card" *ngIf="studio()!.amenities.length > 0">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>star</mat-icon>
+          <mat-card-title>Amenities</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="chips-container">
+            <mat-chip *ngFor="let amenity of studio()!.amenities">
+              {{ amenity }}
+            </mat-chip>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      
+      <mat-card class="detail-card" *ngIf="studio()!.equipment.length > 0">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>build</mat-icon>
+          <mat-card-title>Equipment</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="chips-container">
+            <mat-chip *ngFor="let item of studio()!.equipment">
+              {{ item }}
+            </mat-chip>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      
+      <mat-card class="detail-card full-width" *ngIf="studio()!.images.length > 1">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>photo_library</mat-icon>
+          <mat-card-title>Gallery</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="image-gallery">
+            <img *ngFor="let image of studio()!.images" [src]="image" [alt]="studio()!.name" />
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    
+    <div class="booking-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="booking-cta">
+            <div class="booking-info">
+              <h3>Ready to book?</h3>
+              <p>Book {{ studio()!.name }} for {{ studio()!.currency }} {{ studio()!.pricePerHour }}/hour</p>
+            </div>
+            <button mat-raised-button color="primary" size="large" (click)="openBookingModal()">
+              <mat-icon>event</mat-icon>
+              Book Now
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div> 

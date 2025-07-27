@@ -1,0 +1,45 @@
+
+<div class="booking-list-container">
+  
+<div class="header-actions">
+
+    <div class="nav-buttons">
+      <button mat-icon-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Homepage</span>
+    </div>
+</div>
+  <h1>All Bookings</h1>
+
+  <div class="loading-container" *ngIf="loading()">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading bookings...</p>
+  </div>
+
+  <div *ngIf="!loading()">
+    <p>Total bookings: {{ bookings().length }}</p>
+    
+    <mat-list *ngIf="bookings().length > 0">
+      <mat-list-item *ngFor="let booking of bookings()">
+        <div matListItemTitle>{{ booking.studioName }}</div>
+        <div matListItemLine>
+          <strong>{{ booking.userName }}</strong> - {{ booking.email }}
+        </div>
+        <div matListItemLine>
+          {{ formatDate(booking.date) }} at {{ formatTime(booking.startTime) }} - {{ formatTime(booking.endTime) }}
+        </div>
+        <div matListItemLine>
+          Status: <strong>{{ getStatusText(booking.status) }}</strong> | 
+          Price: {{ booking.currency }} {{ booking.totalPrice }} | 
+          Ref: {{ booking.bookingReference }}
+        </div>
+        <mat-icon matListItemIcon>event</mat-icon>
+      </mat-list-item>
+    </mat-list>
+
+    <div *ngIf="bookings().length === 0" class="no-bookings">
+      <p>No bookings found.</p>
+    </div>
+  </div>
+</div> 

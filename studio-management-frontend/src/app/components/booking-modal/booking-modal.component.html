@@ -1,0 +1,110 @@
+<div class="booking-modal">
+  <h2 mat-dialog-title>Book {{ studio.name }}</h2>
+  
+  <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="dialog-content">
+      
+      <div class="studio-info">
+        <div class="studio-details">
+          <h3>{{ studio.name }}</h3>
+          <p class="studio-type">{{ studio.studioType }}</p>
+          <p class="studio-location">{{ studio.area }}, {{ studio.city }}</p>
+          <div class="studio-rating">
+            <ng-container *ngFor="let star of getStarArray(studio.rating)">
+              <mat-icon [class.filled]="star === 1">star</mat-icon>
+            </ng-container>
+            <span class="rating-text">({{ studio.rating.toFixed(1) }}) {{ studio.reviewCount }} reviews</span>
+          </div>
+          <p class="price">{{ studio.currency }} {{ studio.pricePerHour }}/hour</p>
+        </div>
+      </div>
+
+      
+      <div class="booking-form">
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Select Date</mat-label>
+          <input 
+            matInput 
+            [matDatepicker]="picker" 
+            formControlName="date"
+            [min]="minDate"
+            (dateChange)="onDateChange($event.value)"
+            readonly>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="getFieldError('date')">{{ getFieldError('date') }}</mat-error>
+        </mat-form-field>
+
+        
+        <div class="time-slot-section">
+          <div class="loading-container" *ngIf="loadingSlots()">
+            <mat-spinner diameter="30"></mat-spinner>
+            <p>Loading available time slots...</p>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width" *ngIf="!loadingSlots() && selectedDate()">
+            <mat-label>Select Time Slot</mat-label>
+            <mat-select formControlName="timeSlot">
+              <mat-option *ngFor="let slot of availableSlots()" [value]="formatTimeSlot(slot)">
+                {{ formatTimeSlot(slot) }} 
+                <span class="slot-price">
+                  ({{ calculateDuration(slot) }}h - {{ studio.currency }} {{ calculatePrice(slot) }})
+                </span>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="getFieldError('timeSlot')">{{ getFieldError('timeSlot') }}</mat-error>
+          </mat-form-field>
+
+          <div class="no-slots" *ngIf="!loadingSlots() && selectedDate() && availableSlots().length === 0">
+            <mat-icon>event_busy</mat-icon>
+            <p>No available time slots for this date</p>
+          </div>
+        </div>
+
+        
+        <div class="user-info">
+          <h4>Your Information</h4>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="userName" placeholder="Enter your full name">
+            <mat-error *ngIf="getFieldError('userName')">{{ getFieldError('userName') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Enter your email">
+            <mat-error *ngIf="getFieldError('email')">{{ getFieldError('email') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" placeholder="Enter your phone number">
+            <mat-error *ngIf="getFieldError('phone')">{{ getFieldError('phone') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Additional Notes (Optional)</mat-label>
+            <textarea matInput formControlName="notes" rows="3" placeholder="Any special requirements or notes"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="submitting()">
+        Cancel
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        [disabled]="bookingForm.invalid || submitting() || !selectedDate()">
+        <mat-spinner *ngIf="submitting()" diameter="20"></mat-spinner>
+        <span *ngIf="!submitting()">Book Studio</span>
+        <span *ngIf="submitting()">Creating Booking...</span>
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div> 

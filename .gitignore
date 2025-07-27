@@ -1,0 +1,60 @@
+# Root level gitignore for Studio Management project
+
+# Backend .NET build artifacts that might escape to root
+obj/
+bin/
+*.dll
+*.pdb
+*.exe
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Environment files
+.env*
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock 
+/studio-management-frontend/.vscode

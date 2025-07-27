@@ -1,0 +1,146 @@
+<div class="studio-list-container">
+
+  <div class="nav-buttons">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Homepage</span>
+  </div>
+
+  <div class="header">
+    <h1>Find Your Perfect Studio</h1>
+    <p>Discover and book amazing studios by area or location</p>
+  </div>
+
+  <div class="search-filters">
+    <div class="search-row">
+      <mat-form-field appearance="outline" class="area-field">
+        <mat-label>Search by Area</mat-label>
+        <input 
+          matInput 
+          [matAutocomplete]="areaAuto"
+          [ngModel]="selectedArea()" 
+          (ngModelChange)="selectedArea.set($event); filterAreas($event)"
+          (blur)="onAreaChange()"
+          placeholder="Enter area name">
+        <mat-autocomplete #areaAuto="matAutocomplete" (optionSelected)="onAreaChange()">
+          <mat-option *ngFor="let area of filteredAreas()" [value]="area">
+            {{ area }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon matSuffix>location_on</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="radius-field">
+        <mat-label>Search by Radius</mat-label>
+        <mat-select 
+          [ngModel]="selectedRadius()" 
+          (ngModelChange)="selectedRadius.set($event); onRadiusChange()"
+          placeholder="Select radius">
+          <mat-option [value]="null">No radius filter</mat-option>
+          <mat-option *ngFor="let option of radiusOptions" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>my_location</mat-icon>
+      </mat-form-field>
+
+      <button 
+        mat-stroked-button 
+        color="primary" 
+        (click)="clearFilters()"
+        class="clear-button">
+        <mat-icon>clear</mat-icon>
+        Clear Filters
+      </button>
+    </div>
+
+    <div class="location-status" *ngIf="locationError()">
+      <mat-icon color="warn">warning</mat-icon>
+      <span>{{ locationError() }}</span>
+    </div>
+    
+    <div class="location-status success" *ngIf="userLocation() && !locationError()">
+      <mat-icon color="primary">location_on</mat-icon>
+      <span>Location detected - you can now search by radius</span>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading()">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading studios...</p>
+  </div>
+
+  <div class="studios-grid" *ngIf="!loading()">
+    <div class="results-info">
+      <p>{{ studios().length }} studio(s) found
+        <span *ngIf="selectedArea()"> in {{ selectedArea() }}</span>
+        <span *ngIf="selectedRadius() && userLocation()"> within {{ selectedRadius() }} km</span>
+      </p>
+    </div>
+
+    <div class="studio-cards">
+      <mat-card *ngFor="let studio of studios()" class="studio-card">
+        <div class="studio-image" [routerLink]="['/studios', studio.id]">
+          <img [src]="getStudioImage(studio)" [alt]="studio.name" />
+          <div class="image-overlay">
+            <span class="studio-type">{{ studio.studioType }}</span>
+          </div>
+        </div>
+
+        <mat-card-content>
+          <div class="studio-header">
+            <h3 [routerLink]="['/studios', studio.id]" class="studio-name-link">{{ studio.name }}</h3>
+            <div class="rating">
+              <div class="stars">
+                <ng-container *ngFor="let star of getStarArray(studio.rating)">
+                  <mat-icon [class.filled]="star === 1">star</mat-icon>
+                </ng-container>
+              </div>
+              <span class="rating-text">{{ studio.rating.toFixed(1) }} ({{ studio.reviewCount }})</span>
+            </div>
+          </div>
+
+          <div class="studio-location">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ studio.area }}, {{ studio.city }}, {{ studio.state }}</span>
+            <span *ngIf="studio.distanceKm" class="distance">{{ studio.distanceKm.toFixed(1) }} km away</span>
+          </div>
+
+          <div class="studio-price">
+            <span class="price">{{ studio.currency }} {{ studio.pricePerHour }}</span>
+            <span class="per-hour">/hour</span>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button 
+            mat-button 
+            color="primary" 
+            [routerLink]="['/studios', studio.id]"
+            class="details-button">
+            <mat-icon>info</mat-icon>
+            View Details
+          </button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="openBookingModal(studio)"
+            class="book-button">
+            <mat-icon>event</mat-icon>
+            Book Now
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="no-results" *ngIf="studios().length === 0">
+      <mat-icon>search_off</mat-icon>
+      <h3>No studios found</h3>
+      <p>Try adjusting your search criteria or clearing filters</p>
+      <button mat-button color="primary" (click)="clearFilters()">
+        Clear Filters
+      </button>
+    </div>
+  </div>
+</div> 

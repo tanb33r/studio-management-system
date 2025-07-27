@@ -1,0 +1,57 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1>Studio Booking Dashboard</h1>
+      <div class="user-menu">
+        <button mat-button color="warn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    
+    <div class="hero-section">
+      <div class="hero-content">
+        <h2>Find and Book Your Perfect Studio</h2>
+        <p>Discover amazing studios in your area and make bookings instantly</p>
+        <div class="hero-actions">
+          <button mat-raised-button color="primary" routerLink="/studios" class="primary-action">
+            <mat-icon>search</mat-icon>
+            Browse Studios
+          </button>
+          <button mat-button routerLink="/bookings" class="secondary-action">
+            <mat-icon>event_note</mat-icon>
+            View All Bookings
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="quick-actions">
+      <div class="actions-grid">
+        <mat-card class="action-card" routerLink="/studios">
+          <mat-card-content>
+            <div class="card-icon">
+              <mat-icon>business</mat-icon>
+            </div>
+            <h4>Find Studios</h4>
+            <p>Browse available studios in your area with advanced search and filtering options</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="action-card" routerLink="/bookings">
+          <mat-card-content>
+            <div class="card-icon">
+              <mat-icon>calendar_view_day</mat-icon>
+            </div>
+            <h4>Bookings</h4>
+            <p>View and manage your current and past studio bookings</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </main>
+</div> 

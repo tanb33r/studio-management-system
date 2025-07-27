@@ -1,0 +1,94 @@
+.booking-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+
+  .homepage-button-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+
+    .homepage-link {
+      display: flex;
+      align-items: center;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      .homepage-button {
+        margin-right: 8px;
+        color: #666;
+        transition: color 0.2s ease;
+      }
+
+      span {
+        font-size: 14px;
+        transition: color 0.2s ease;
+      }
+
+      &:hover {
+        color: #1976d2;
+        
+        .homepage-button {
+          color: #1976d2;
+        }
+        
+        span {
+          color: #1976d2;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      top: 16px;
+      left: 16px;
+      
+      .homepage-link span {
+        font-size: 12px;
+      }
+    }
+  }
+
+  h1 {
+    margin-top: 60px; // Make space for homepage button
+    color: #333;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+      margin-top: 50px;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    
+    p {
+      margin-top: 16px;
+      color: #666;
+    }
+  }
+
+  .no-bookings {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+
+  mat-list {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+  }
+
+  mat-list-item {
+    border-bottom: 1px solid #f0f0f0;
+    margin: 10px 10px 10px 10px;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+} 
